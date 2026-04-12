@@ -1,0 +1,139 @@
+.about {
+  background: var(--bg);
+  padding: 120px 6vw;
+}
+
+.about__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Image side */
+.about__img-wrap {
+  position: relative;
+}
+
+.about__img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  filter: grayscale(30%) brightness(0.75);
+  border-radius: 2px;
+}
+
+.about__img-badge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--accent);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.about__badge-year {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.about__badge-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+}
+
+/* Content side */
+.about__eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+}
+
+.about__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 4.5vw, 4rem);
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 1.6rem;
+}
+
+.about__title span {
+  color: var(--text-muted);
+}
+
+.about__text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 1rem;
+  max-width: 500px;
+}
+
+.about__features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 2rem 0 2.4rem;
+}
+
+.about__feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.about__feature-icon {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.about__cta {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  padding: 13px 28px;
+  border-radius: 2px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.about__cta:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.05);
+}
+
+@media (max-width: 900px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  .about__img-badge {
+    right: 0;
+    bottom: 0;
+  }
+}

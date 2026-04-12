@@ -1,0 +1,147 @@
+.terms {
+  background: var(--bg);
+  padding: 100px 6vw;
+  border-top: 1px solid var(--border);
+}
+
+.terms__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.terms__header {
+  margin-bottom: 64px;
+}
+
+.terms__eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+}
+
+.terms__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 1.2rem;
+}
+
+.terms__title span {
+  color: var(--text-muted);
+}
+
+.terms__subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 600px;
+  border-left: 2px solid var(--accent);
+  padding-left: 16px;
+}
+
+/* Grid */
+.terms__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.terms__block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.terms__block--meta {
+  grid-column: 1 / -1;
+  background: transparent;
+  border-color: transparent;
+  padding: 24px 32px;
+  align-items: flex-start;
+}
+
+.terms__block-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.terms__block p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin: 0;
+}
+
+.terms__block a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.terms__block a:hover {
+  color: #fff;
+}
+
+.terms__block strong {
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+}
+
+.terms__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.terms__list li {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding-left: 18px;
+  position: relative;
+}
+
+.terms__list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+}
+
+.terms__meta {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 720px) {
+  .terms__grid {
+    grid-template-columns: 1fr;
+  }
+  .terms__block--meta {
+    padding: 20px 0;
+  }
+  .terms__block {
+    padding: 28px 22px;
+  }
+}
