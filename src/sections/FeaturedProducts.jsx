@@ -32,7 +32,7 @@ const PRODUCTS = [
     name: 'Nike JR vapor 16 club gervi gras skór',
     category: 'Gervigras skór',
     price: '9.990 kr',
-    images: ['/gervigras.jpg', '/gervigras-gulur.jpeg', '/gervigras-svartur.jpeg', '/gervigras-bleikur.jpeg'],
+    images: ['/gervigras-gulur.jpeg', '/gervigras-svartur.jpeg', '/gervigras-bleikur.jpeg'],
     tag: 'Vinsælt',
     sizes: ['30 svartir', '30 grænir', '30 bleikir', '30½ bleikir', '31½ svartir', '31½ grænir'],
   },
