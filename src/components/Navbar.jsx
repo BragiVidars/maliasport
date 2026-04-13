@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import './Navbar.css'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { count, setIsOpen } = useCart()
+  const { user, authReady, openAuthModal, signOutUser } = useAuth()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const userLabel = user?.displayName || user?.email?.split('@')[0]
 
   return (
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
@@ -29,6 +33,18 @@ export default function Navbar() {
         </nav>
 
         <div className="navbar__actions">
+          {authReady && user ? (
+            <>
+              <span className="navbar__user">{userLabel}</span>
+              <button className="navbar__auth-btn" onClick={signOutUser}>
+                Skrá út
+              </button>
+            </>
+          ) : (
+            <button className="navbar__auth-btn" onClick={() => openAuthModal('signIn')}>
+              Skrá inn
+            </button>
+          )}
           <button className="navbar__cart-btn" onClick={() => setIsOpen(true)} aria-label="Karfa">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             {count > 0 && <span className="navbar__cart-count">{count}</span>}

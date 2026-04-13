@@ -17,7 +17,13 @@ const PRODUCTS = [
     name: 'Nike JR vapor 16 club fg/mg',
     category: 'Takkaskór',
     price: '10.990 kr',
-    img: '/p2.jpg',
+    images: [
+      '/blair-takkaskor1-v3.jpeg',
+      '/blair-takkaskor2-v3.jpeg',
+      '/blair-takkaskor1.jpeg',
+      '/blair-takkaskor2.jpeg',
+      '/blair-takkaskor2.jpg',
+    ],
     tag: null,
     sizes: ['33', '34', '36½', '38', '38⅕'],
   },
@@ -26,7 +32,7 @@ const PRODUCTS = [
     name: 'Nike JR vapor 16 club gervi gras skór',
     category: 'Gervigras skór',
     price: '9.990 kr',
-    img: '/p3.jpg',
+    images: ['/gervigras.jpg', '/gervigras-gulur.jpeg', '/gervigras-svartur.jpeg', '/gervigras-bleikur.jpeg'],
     tag: 'Vinsælt',
     sizes: ['30 svartir', '30 grænir', '30 bleikir', '30½ bleikir', '31½ svartir', '31½ grænir'],
   },
@@ -46,14 +52,14 @@ const PRODUCTS = [
     price: '15.990 kr',
     img: '/p5.jpg',
     tag: null,
-    sizes: ['33', '34', '36½'],
+    sizes: ['33', '34', '36½', '42'],
   },
   {
     id: 6,
     name: 'Nike JR zoom vapor 16 academy fg/mg',
     category: 'Takkaskór',
     price: '16.990 kr',
-    img: '/p6.jpg',
+    images: ['/vapor16-academy-1.jpeg', '/vapor16-academy-2.jpeg'],
     tag: null,
     sizes: ['33', '35½', '36½'],
   },
@@ -62,7 +68,7 @@ const PRODUCTS = [
     name: 'Nike JR zoom superfly 10 acad',
     category: 'Takkaskór',
     price: '16.990 kr',
-    img: '/p7.jpg',
+    images: ['/superfly10-acad-1.jpeg', '/superfly10-acad-2.jpeg'],
     tag: null,
     sizes: ['33', '34'],
   },
@@ -71,7 +77,7 @@ const PRODUCTS = [
     name: 'Nike JR zoom superfly 10 acad fgmg',
     category: 'Takkaskór',
     price: '17.990 kr',
-    img: '/p8.jpg',
+    images: ['/takkaskor-blair-sokk1.jpeg', '/takkaskor-blair-sokk.jpg'],
     tag: null,
     sizes: ['33', '34', '38', '38½'],
   },
@@ -80,7 +86,7 @@ const PRODUCTS = [
     name: 'Nike Vapor 16 Pro AG-Pro takkaskór',
     category: 'Takkaskór',
     price: '27.990 kr',
-    img: '/p9.jpg',
+    images: ['/vapor16-pro-ag-1.jpeg', '/vapor16-pro-ag-2.jpeg'],
     tag: 'Nýtt',
     sizes: ['41', '42½', '44'],
   },
@@ -89,7 +95,7 @@ const PRODUCTS = [
     name: 'Nike Phantom 6 Low Elite FG takkaskór + bakpoki',
     category: 'Takkaskór',
     price: '37.990 kr',
-    img: '/p10.jpg',
+    images: ['/phantom6-bakpoki-1.jpeg', '/phantom6-bakpoki-2.jpeg'],
     tag: 'Nýtt',
     sizes: ['42½'],
   },
@@ -98,16 +104,16 @@ const PRODUCTS = [
     name: 'Nike Mercurial Vapor 16 Academy FG/MG takkaskór',
     category: 'Takkaskór',
     price: '17.990 kr',
-    img: '/p11.jpg',
+    images: ['/mercurial-vapor16-1.jpeg', '/mercurial-vapor16-2.jpeg'],
     tag: 'Nýtt',
-    sizes: null,
+    sizes: ['42½', '44'],
   },
   {
     id: 12,
     name: 'Nike Mercurial Zoom Vapor 16 Academy FG/MG takkaskór',
     category: 'Takkaskór',
     price: '17.990 kr',
-    img: '/p12.jpg',
+    images: ['/mercurial-zoom-vapor16-1.jpeg', '/mercurial-zoom-vapor16-2.jpeg'],
     tag: 'Nýtt',
     sizes: ['42', '42½', '44'],
   },
@@ -116,7 +122,7 @@ const PRODUCTS = [
     name: 'Nike Phantom 6 High Pro takkaskór',
     category: 'Takkaskór',
     price: '27.990 kr',
-    img: '/p13.jpg',
+    images: ['/phantom6-high-pro-1.jpeg', '/phantom6-high-pro-2.jpeg'],
     tag: 'Nýtt',
     sizes: ['42', '42½', '44½'],
   },
@@ -125,7 +131,7 @@ const PRODUCTS = [
     name: 'Phantom 6 low elite FG takkaskór',
     category: 'Takkaskór',
     price: '29.990 kr',
-    img: '/p14.jpg',
+    images: ['/phantom6-low-elite-1.jpeg', '/phantom6-low-elite-2.jpeg'],
     tag: 'Nýtt',
     sizes: ['42½'],
   },
@@ -134,7 +140,7 @@ const PRODUCTS = [
     name: 'ZM vapor 16 academy fg/mg takkaskór',
     category: 'Takkaskór',
     price: '17.990 kr',
-    img: '/p15.jpg',
+    images: ['/zm-vapor16-academy-1.jpeg', '/zm-vapor16-academy-2.jpeg'],
     tag: null,
     sizes: ['42', '42½', '43', '44'],
   },
@@ -143,7 +149,7 @@ const PRODUCTS = [
     name: 'Fótbolta mörk',
     category: 'Mörk',
     price: '9.990 kr',
-    img: '/p16.jpg',
+    images: ['/litilmork-1.avif', '/litilmork-2.jpeg'],
     tag: null,
     sizes: null,
   },
@@ -152,7 +158,7 @@ const PRODUCTS = [
     name: 'Fótbolta mark',
     category: 'Mörk',
     price: '18.990 kr',
-    img: '/p17.jpg',
+    images: ['/fotboltamark-2.avif', '/fotboltamark-1.jpeg'],
     tag: null,
     sizes: null,
   },
@@ -163,6 +169,9 @@ function ProductCard({ p }) {
   const [selectedSize, setSelectedSize] = useState('')
   const [sizeError, setSizeError] = useState(false)
   const [added, setAdded] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+
+  const images = p.images || [p.img]
 
   function handleAdd() {
     if (p.sizes && !selectedSize) {
@@ -179,7 +188,20 @@ function ProductCard({ p }) {
     <div className="featured__card">
       <div className="featured__card-img-wrap">
         {p.tag && <span className="featured__card-tag">{p.tag}</span>}
-        <img src={p.img} alt={p.name} className="featured__card-img" />
+        <img src={images[selectedImageIndex]} alt={p.name} className="featured__card-img" />
+        {images.length > 1 && (
+          <div className="featured__card-thumbnails">
+            {images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={`${p.name} ${i + 1}`}
+                onClick={() => setSelectedImageIndex(i)}
+                className={`featured__card-thumb ${selectedImageIndex === i ? 'featured__card-thumb--active' : ''}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className="featured__card-info">
         <span className="featured__card-cat">{p.category}</span>
@@ -244,5 +266,6 @@ export default function FeaturedProducts() {
         </div>
       </div>
     </section>
+
   )
 }

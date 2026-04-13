@@ -1,15 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import './Cart.css'
 
 const FUNCTION_URL = 'https://europe-west1-maliasport.cloudfunctions.net/createCheckout'
 
 export default function Cart() {
   const { items, removeItem, updateQty, clearCart, total, count, isOpen, setIsOpen } = useCart()
+  const { user, openAuthModal } = useAuth()
   const [view, setView] = useState('cart')
   const [form, setForm] = useState({ name: '', email: '', phone: '', address: '', zip: '', city: '', note: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!user) return
+
+    setForm(current => ({
+      ...current,
+      name: current.name || user.displayName || '',
+      email: current.email || user.email || '',
+    }))
+  }, [user])
 
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }))
@@ -19,6 +31,17 @@ export default function Cart() {
     setIsOpen(false)
     setView('cart')
     setError('')
+  }
+
+  function handleGoToCheckout() {
+    if (!user) {
+      setError('Þú þarft að skrá þig inn áður en þú ferð í greiðslu.')
+      openAuthModal('signIn')
+      return
+    }
+
+    setError('')
+    setView('checkout')
   }
 
   async function handleSubmit(e) {
@@ -102,7 +125,8 @@ export default function Cart() {
             </div>
             <div className="cart__footer">
               <div className="cart__total">Samtals: <strong>{total.toLocaleString('is-IS')} kr</strong></div>
-              <button className="cart__checkout-btn" onClick={() => setView('checkout')}>
+              {error && <div className="cart__error">{error}</div>}
+              <button className="cart__checkout-btn" onClick={handleGoToCheckout}>
                 Greiða {total.toLocaleString('is-IS')} kr →
               </button>
               <button className="cart__continue-btn" onClick={close}>

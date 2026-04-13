@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "maliasport"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }

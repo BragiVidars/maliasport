@@ -4,14 +4,14 @@ const CATEGORIES = [
   {
     id: 1,
     name: 'Takkaskór',
-    sub: 'Nike JR — fyrir grasvöll',
+    sub: 'Nike JR',
     img: '/p7.jpg',
   },
   {
     id: 2,
     name: 'Gervigras',
-    sub: 'Nike JR — fyrir gervigras',
-    img: '/p3.jpg',
+    sub: 'Nike JR',
+    img: '/gulir-gervigras1.jpeg',
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ export default function Categories() {
           <span className="categories__eyebrow">Vöruflokkar</span>
           <h2 className="categories__title">
             Knattspyrnubúnaður<br />
-            <span>fyrir krakkana</span>
+            <span className="categories__title-highlight">fyrir allan aldur</span>
           </h2>
         </div>
 

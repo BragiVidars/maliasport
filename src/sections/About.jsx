@@ -19,29 +19,21 @@ export default function About() {
           <span className="about__eyebrow">Um okkur</span>
           <h2 className="about__title">
             NETVERSLUN<br />
-            <span>FYRIR ÞIG</span>
+            <span>MALÍA SPORT</span>
           </h2>
           <p className="about__text">
-            Malía Sport ehf er netverslun á Akranesi sem sérhæfir sig í Nike 
-            knattspyrnubúnaði fyrir börn og unglinga. Við bjóðum upp á úrval af takkaskóm, 
-            gervigras skóm, legghlífum og markmannshönskum — allt beint frá Nike.
+            Malía Sport er netverslun á Akranesi sem sérhæfir sig í knattspyrnubúnaði fyrir börn,
+            unglinga og fullorðna. Við bjóðum upp á úrval af takkaskóm, gervigras skóm,
+            legghlífum, markmannshönskum og fleira fyrir fótboltann.
           </p>
           <p className="about__text">
-            Við sendum um allt land. Pantaðu á maliasport.is og við sjáum um restina.
+            Við sendum um allt land. Pantaðu á maliasport.is og við sjáum um rest.
           </p>
 
           <div className="about__features">
             <div className="about__feature">
               <span className="about__feature-icon">✓</span>
               <span>Frí afhending á Akranesi</span>
-            </div>
-            <div className="about__feature">
-              <span className="about__feature-icon">✓</span>
-              <span>Nike takkaskór og gervigras skór</span>
-            </div>
-            <div className="about__feature">
-              <span className="about__feature-icon">✓</span>
-              <span>Legghlífar og markmannshanskar</span>
             </div>
           </div>
 

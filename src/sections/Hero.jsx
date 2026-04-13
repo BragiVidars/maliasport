@@ -14,13 +14,9 @@ export default function Hero() {
         <div className="hero__content">
           <div className="hero__content-left">
             <h1 className="hero__title">
-              KNATTSPYRNU<br />
-              <span>BÚNAÐUR</span><br />
-              FYRIR KRAKKANA
+              Vandaður <span className="hero__title-highlight">knattspyrnubúnaður</span> fyrir allan aldur
             </h1>
             <p className="hero__desc">
-              Nike takka og gervigras skór, legghlífar, sokkar, markmannshanskar og fleira.<br />
-              Netverslun á Islandi — 1-5 daga afhending.
             </p>
             <div className="hero__actions">
               <a href="#featured" className="hero__btn-primary">Skoðaðu vörur</a>

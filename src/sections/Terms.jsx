@@ -64,10 +64,10 @@ export default function Terms() {
           </div>
 
           <div className="terms__block">
-            <h3 className="terms__block-title">Afhending</h3>
+            <h3 className="terms__block-title">Afhending:</h3>
             <p>
-              Pantanir eru afgreiddar innan <strong>1–4 daga</strong> frá pöntun.
-              Frí heimsending á Akranesi. Sending um allt land í gegnum PostBox eða pakkaver.
+              Pantanir eru afgreiddar innan <strong>1–5 daga</strong> frá pöntun.
+              Frí heimsending á Akranesi. Sendingar um allt land í gegnum Dropp.
             </p>
           </div>
 

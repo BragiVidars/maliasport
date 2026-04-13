@@ -39,7 +39,7 @@
 }
 
 .featured__title span {
-  color: var(--text-muted);
+  color: #e8003a;
 }
 
 .featured__see-all {
@@ -115,6 +115,32 @@
   position: relative;
   aspect-ratio: 3/4;
   overflow: hidden;
+}
+
+.featured__card-thumbnails {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  gap: 4px;
+}
+
+.featured__card-thumb {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+
+.featured__card-thumb:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.featured__card-thumb--active {
+  border-color: var(--accent);
 }
 
 .featured__card-tag {

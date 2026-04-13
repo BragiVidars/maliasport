@@ -83,6 +83,10 @@
   color: var(--accent);
 }
 
+.hero__title .hero__title-highlight {
+  color: #e8003a;
+}
+
 .hero__desc {
   font-size: 0.95rem;
   color: rgba(255,255,255,0.6);

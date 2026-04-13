@@ -36,6 +36,10 @@
   color: var(--text-muted);
 }
 
+.categories__title .categories__title-highlight {
+  color: #e8003a;
+}
+
 /* Grid */
 .categories__grid {
   display: grid;
