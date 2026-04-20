@@ -1,16 +1,34 @@
 import { useState } from 'react'
 import './Contact.css'
 
+const SEND_CONTACT_URL = 'https://europe-west1-maliasport.cloudfunctions.net/sendContactEmail'
+
 export default function Contact() {
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    // Replace with actual form submission (Firebase / EmailJS etc.)
-    setSent(true)
+    setError('')
+    setLoading(true)
+    try {
+      const res = await fetch(SEND_CONTACT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
+      })
+      if (!res.ok) throw new Error('Villa við sendingu')
+      setSent(true)
+    } catch (e) {
+      console.error('Contact email villa:', e)
+      setError('Villa kom upp við sendingu. Reyndu aftur eða sendu beint á maliasport@maliasport.is')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -30,8 +48,8 @@ export default function Contact() {
           <div className="contact__details">
             <div className="contact__detail">
               <span className="contact__detail-label">Netfang</span>
-              <a href="mailto:maliasportehf@gmail.com" className="contact__detail-val">
-                maliasportehf@gmail.com
+              <a href="mailto:maliasport@maliasport.is" className="contact__detail-val">
+                maliasport@maliasport.is
               </a>
             </div>
             <div className="contact__detail">
@@ -94,9 +112,10 @@ export default function Contact() {
                   required
                 />
               </div>
-              <button type="submit" className="contact__submit">
-                Senda skilaboð →
+              <button type="submit" className="contact__submit" disabled={loading}>
+                {loading ? 'Sendi...' : 'Senda skilaboð →'}
               </button>
+              {error && <div className="contact__error">{error}</div>}
             </form>
           )}
         </div>

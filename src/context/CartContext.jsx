@@ -1,12 +1,28 @@
-import { createContext, useContext, useState } from 'react'
-
 const CartContext = createContext(null)
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [stockState, setStockState] = useState({})
+
+  // Initialize stockState from PRODUCTS on first render
+  // (PRODUCTS must be imported here if needed, or passed as prop/context)
+
+  function getStockKey(product, size) {
+    return `${product.id}-${size}`
+  }
 
   function addItem(product, size) {
+    // Only check stock if product has stock field
+    if (product.stock && size) {
+      const stockKey = getStockKey(product, size)
+      const currentStock = stockState[stockKey] ?? product.stock[size]
+      if (!currentStock || currentStock < 1) {
+        alert('Þessi stærð er uppseld!')
+        return
+      }
+      setStockState(prev => ({ ...prev, [stockKey]: currentStock - 1 }))
+    }
     const key = `${product.id}-${size || 'default'}`
     setItems(prev => {
       const existing = prev.find(i => i.key === key)
@@ -19,6 +35,7 @@ export function CartProvider({ children }) {
   }
 
   function removeItem(key) {
+    // Optionally: restore stock if item is removed from cart
     setItems(prev => prev.filter(i => i.key !== key))
   }
 
@@ -40,7 +57,7 @@ export function CartProvider({ children }) {
   const count = items.reduce((sum, i) => sum + i.qty, 0)
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, updateQty, clearCart, total, count, isOpen, setIsOpen }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, updateQty, clearCart, total, count, isOpen, setIsOpen, stockState }}>
       {children}
     </CartContext.Provider>
   )

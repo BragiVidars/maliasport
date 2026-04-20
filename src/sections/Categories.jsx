@@ -8,12 +8,6 @@ const CATEGORIES = [
     img: '/p7.jpg',
   },
   {
-    id: 2,
-    name: 'Gervigras',
-    sub: 'Nike JR',
-    img: '/gulir-gervigras1.jpeg',
-  },
-  {
     id: 3,
     name: 'Legghlífar',
     sub: 'Malía Sport mini',

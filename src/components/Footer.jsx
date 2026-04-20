@@ -28,7 +28,7 @@ export default function Footer() {
           </div>
           <div className="footer__col">
             <h4 className="footer__col-title">Tengist okkur</h4>
-            <a href="mailto:maliasportehf@gmail.com">maliasportehf@gmail.com</a>
+            <a href="mailto:maliasport@maliasport.is">maliasport@maliasport.is</a>
             <a href="https://maliasport.is">maliasport.is</a>
             <a href="#skilmalar">Skilmálar</a>
           </div>

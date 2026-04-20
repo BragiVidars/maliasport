@@ -84,3 +84,40 @@ exports.createCheckout = onRequest(
     }
   }
 );
+
+exports.sendContactEmail = onRequest(
+  { cors: true },
+  async (req, res) => {
+    if (req.method !== "POST") {
+      return res.status(405).json({ error: "Aðeins POST" });
+    }
+
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Nafn, netfang og skilaboð vantar" });
+    }
+
+    try {
+      const emailjs = require("@emailjs/nodejs");
+      await emailjs.send(
+        "service_u8m3pqd",
+        "template_61ha1nq",
+        {
+          from_name: name,
+          from_email: email,
+          message,
+          to_email: "maliasport@maliasport.is",
+        },
+        {
+          publicKey: "p-i2d6JGGWY2u_g5-",
+          privateKey: "38bVvFOXil7Bv4v-XQHNl",
+        }
+      );
+
+      return res.json({ success: true });
+    } catch (err) {
+      console.error("sendContactEmail villa:", err);
+      return res.status(500).json({ error: "Villa við sendingu" });
+    }
+  }
+);

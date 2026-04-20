@@ -40,7 +40,7 @@ export default function Terms() {
             <p>
               Hægt er að skila vöru með því að senda hana til okkar á kostnað viðskiptavinar,
               eða semja við okkur um afhendingu á{' '}
-              <a href="mailto:maliasportehf@gmail.com">Maliasportehf@gmail.com</a> — við reynum
+              <a href="mailto:maliasport@maliasport.is">maliasport@maliasport.is</a> — við reynum
               eftir bestu getu að verða við þeirri ósk.
             </p>
             <p>
@@ -79,7 +79,7 @@ export default function Terms() {
             </p>
             <p>
               Ef eitthvað er óljóst má alltaf hafa samband á{' '}
-              <a href="mailto:maliasportehf@gmail.com">Maliasportehf@gmail.com</a> og við
+              <a href="mailto:maliasport@maliasport.is">maliasport@maliasport.is</a> og við
               svörum eins fljótt og unnt er.
             </p>
           </div>
