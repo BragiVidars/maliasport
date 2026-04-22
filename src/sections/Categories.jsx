@@ -17,7 +17,7 @@ const CATEGORIES = [
     id: 4,
     name: 'Markmannshanskar',
     sub: 'Nike — fyrir börn',
-    img: '/p4.jpg',
+    img: '/p4-v2.jpg',
   },
 ]
 

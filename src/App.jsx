@@ -1,3 +1,4 @@
+import React from "react";
 import Navbar from './components/Navbar'
 import Cart from './components/Cart'
 import AuthModal from './components/AuthModal'
@@ -45,25 +46,22 @@ class ErrorCatcher extends React.Component {
 const isClosed = false
 
 export default function App() {
-  // Maintenance mode disabled
   return (
-    <ErrorBoundary>
-      <AuthProvider>
-        <CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <ErrorBoundary>
           <Navbar />
           <Cart />
           <AuthModal />
-          <main>
-            <Hero />
-            <Categories />
-            <FeaturedProducts />
-            <About />
-            <Contact />
-            <Terms />
-          </main>
+          <Hero />
+          <Categories />
+          <FeaturedProducts />
+          <About />
+          <Contact />
+          <Terms />
           <Footer />
-        </CartProvider>
-      </AuthProvider>
-    </ErrorBoundary>
+        </ErrorBoundary>
+      </CartProvider>
+    </AuthProvider>
   )
 }

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import './Cart.css'
 
 const FUNCTION_URL = 'https://europe-west1-maliasport.cloudfunctions.net/createCheckout'
+const VALIDATE_URL = 'https://europe-west1-maliasport.cloudfunctions.net/validateCode'
 
 export default function Cart() {
   const { items, removeItem, updateQty, clearCart, total, count, isOpen, setIsOpen } = useCart()
@@ -12,6 +13,14 @@ export default function Cart() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', address: '', zip: '', city: '', note: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [giftCode, setGiftCode] = useState('')
+  const [discountCode, setDiscountCode] = useState('')
+  const [giftDiscount, setGiftDiscount] = useState(0)
+  const [discountAmount, setDiscountAmount] = useState(0)
+  const [giftError, setGiftError] = useState('')
+  const [discountError, setDiscountError] = useState('')
+  const [giftApplied, setGiftApplied] = useState(false)
+  const [discountApplied, setDiscountApplied] = useState(false)
 
   useEffect(() => {
     if (!user) return
@@ -31,6 +40,52 @@ export default function Cart() {
     setIsOpen(false)
     setView('cart')
     setError('')
+    setGiftCode('')
+    setDiscountCode('')
+    setGiftDiscount(0)
+    setDiscountAmount(0)
+    setGiftError('')
+    setDiscountError('')
+    setGiftApplied(false)
+    setDiscountApplied(false)
+  }
+
+  async function applyGiftCode() {
+    setGiftError('')
+    if (!giftCode.trim()) return
+    const res = await fetch(VALIDATE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: giftCode, amount: total, codeType: 'giftcard' }),
+    })
+    const data = await res.json()
+    if (data.valid) {
+      setGiftDiscount(data.discount)
+      setGiftApplied(true)
+    } else {
+      setGiftError(data.error || 'Ógildur gjafabréfskóði')
+      setGiftDiscount(0)
+      setGiftApplied(false)
+    }
+  }
+
+  async function applyDiscountCode() {
+    setDiscountError('')
+    if (!discountCode.trim()) return
+    const res = await fetch(VALIDATE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: discountCode, amount: total, codeType: 'discount' }),
+    })
+    const data = await res.json()
+    if (data.valid) {
+      setDiscountAmount(data.discount)
+      setDiscountApplied(true)
+    } else {
+      setDiscountError('Ógildur afsláttarkóði')
+      setDiscountAmount(0)
+      setDiscountApplied(false)
+    }
   }
 
   function handleGoToCheckout() {
@@ -48,6 +103,7 @@ export default function Cart() {
     e.preventDefault()
     setError('')
     setLoading(true)
+    const finalTotal = Math.max(0, total - giftDiscount - discountAmount)
     try {
       const orderId = `MS-${Date.now()}`
       const itemsSummary = items.map(i => `${i.product.name}${i.size ? ` (${i.size})` : ''} x${i.qty}`).join(' | ')
@@ -55,7 +111,7 @@ export default function Cart() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: total,
+          amount: finalTotal,
           currency: 'ISK',
           orderId,
           successUrl: `${window.location.origin}?payment=success&order=${orderId}`,
@@ -125,9 +181,52 @@ export default function Cart() {
             </div>
             <div className="cart__footer">
               <div className="cart__total">Samtals: <strong>{total.toLocaleString('is-IS')} kr</strong></div>
+
+              <div className="cart__code-section">
+                <label className="cart__code-label">Gjafabréf</label>
+                <div className="cart__code-row">
+                  <input
+                    className="cart__code-input"
+                    value={giftCode}
+                    onChange={e => { setGiftCode(e.target.value); setGiftApplied(false); setGiftDiscount(0); setGiftError('') }}
+                    placeholder="Sláðu inn gjafabréfskóða"
+                    disabled={giftApplied}
+                  />
+                  <button type="button" className="cart__code-btn" onClick={applyGiftCode} disabled={giftApplied}>
+                    {giftApplied ? '✓' : 'Nota'}
+                  </button>
+                </div>
+                {giftError && <div className="cart__code-error">{giftError}</div>}
+                {giftApplied && <div className="cart__code-success">−{giftDiscount.toLocaleString('is-IS')} kr af gjafabréfi</div>}
+              </div>
+
+              <div className="cart__code-section">
+                <label className="cart__code-label">Afsláttarkóði</label>
+                <div className="cart__code-row">
+                  <input
+                    className="cart__code-input"
+                    value={discountCode}
+                    onChange={e => { setDiscountCode(e.target.value); setDiscountApplied(false); setDiscountAmount(0); setDiscountError('') }}
+                    placeholder="Sláðu inn afsláttarkóða"
+                    disabled={discountApplied}
+                  />
+                  <button type="button" className="cart__code-btn" onClick={applyDiscountCode} disabled={discountApplied}>
+                    {discountApplied ? '✓' : 'Nota'}
+                  </button>
+                </div>
+                {discountError && <div className="cart__code-error">{discountError}</div>}
+                {discountApplied && <div className="cart__code-success">−{discountAmount.toLocaleString('is-IS')} kr afsláttur</div>}
+              </div>
+
+              {(giftDiscount > 0 || discountAmount > 0) && (
+                <div className="cart__total cart__total--final">
+                  Til greiðslu: <strong>{Math.max(0, total - giftDiscount - discountAmount).toLocaleString('is-IS')} kr</strong>
+                </div>
+              )}
+
               {error && <div className="cart__error">{error}</div>}
               <button className="cart__checkout-btn" onClick={handleGoToCheckout}>
-                Greiða {total.toLocaleString('is-IS')} kr →
+                Greiða {Math.max(0, total - giftDiscount - discountAmount).toLocaleString('is-IS')} kr →
               </button>
               <button className="cart__continue-btn" onClick={close}>
                 ← Halda áfram að versla
@@ -179,7 +278,7 @@ export default function Cart() {
             {error && <div className="cart__error">{error}</div>}
 
             <button type="submit" className="cart__pay-btn" disabled={loading}>
-              {loading ? 'Hinkra...' : `Greiða ${total.toLocaleString('is-IS')} kr`}
+              {loading ? 'Hinkra...' : `Greiða ${Math.max(0, total - giftDiscount - discountAmount).toLocaleString('is-IS')} kr`}
             </button>
           </form>
         )}

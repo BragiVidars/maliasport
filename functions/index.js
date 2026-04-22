@@ -85,6 +85,52 @@ exports.createCheckout = onRequest(
   }
 );
 
+// — Afsláttarkóðar —
+const DISCOUNT_CODES = {
+  'VELKOMIN10': { type: 'percent', value: 10 },
+}
+
+exports.validateCode = onRequest(
+  { cors: true },
+  async (req, res) => {
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Aðeins POST' })
+
+    const { code, amount, codeType } = req.body
+    if (!code || !amount) return res.status(400).json({ error: 'code og amount vantar' })
+
+    const upperCode = code.trim().toUpperCase()
+
+    // Afsláttarkóðar
+    if (codeType === 'discount' || !codeType) {
+      if (DISCOUNT_CODES[upperCode]) {
+        const dc = DISCOUNT_CODES[upperCode]
+        const discount = dc.type === 'percent'
+          ? Math.round(amount * dc.value / 100)
+          : dc.value
+        return res.json({ valid: true, type: 'discount', discount, newTotal: Math.max(0, amount - discount) })
+      }
+    }
+
+    // Gjafabréf í Firestore
+    if (codeType === 'giftcard' || !codeType) {
+      const admin = require('firebase-admin')
+      if (!admin.apps.length) admin.initializeApp()
+      const db = admin.firestore()
+      const snap = await db.collection('giftCards').doc(upperCode).get()
+      if (snap.exists) {
+        const card = snap.data()
+        if (!card.balance || card.balance <= 0) {
+          return res.json({ valid: false, error: 'Gjafabréfið er þvælt' })
+        }
+        const discount = Math.min(card.balance, amount)
+        return res.json({ valid: true, type: 'giftcard', discount, balance: card.balance, newTotal: Math.max(0, amount - discount) })
+      }
+    }
+
+    return res.json({ valid: false })
+  }
+)
+
 exports.sendContactEmail = onRequest(
   { cors: true },
   async (req, res) => {
