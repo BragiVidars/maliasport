@@ -15,6 +15,16 @@ export function CartProvider({ children }) {
   }
 
   function addItem(product, size) {
+    // Check stock for products without sizes
+    if (product.noSizeStock !== undefined && !size) {
+      const stockKey = `${product.id}-nosize`
+      const currentStock = stockState[stockKey] ?? product.noSizeStock
+      if (!currentStock || currentStock < 1) {
+        alert('Þessi vara er uppseld!')
+        return
+      }
+      setStockState(prev => ({ ...prev, [stockKey]: currentStock - 1 }))
+    }
     // Only check stock if product has stock field
     if (product.stock && size) {
       const stockKey = getStockKey(product, size)

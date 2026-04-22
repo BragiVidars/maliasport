@@ -214,6 +214,7 @@ const PRODUCTS = [
     images: ['/pumpa.jpeg', '/pumpa1.jpeg', '/pumpa2.jpeg', '/pumpa3.jpeg'],
     tag: 'Nýtt',
     sizes: null,
+    noSizeStock: 29,
     description: 'Þráðlaus loftdæla (air pump) * Hentar fyrir bíla, mótorhjól, hjól og bolta * Stillir loftþrýsting og stoppar sjálfkrafa * Innbyggt ljós (hentar í myrkri) * Sýnir loftþrýsting (PSI/BAR) á skjá * Endurhlaðanleg rafhlaða (3–5 klst hleðsla)',
   },
   // — Faldar vörur —
@@ -302,6 +303,13 @@ function ProductCard({ p }) {
       availableColors = [...new Set(p.variants.filter(v => v.size === selectedSize).map(v => v.color))]
     }
 
+    // Lagerstýring fyrir vörur án stærða
+    const noSizeStockKey = `${p.id}-nosize`
+    const noSizeRemaining = p.noSizeStock !== undefined
+      ? (stockState[noSizeStockKey] ?? p.noSizeStock)
+      : null
+    const isSoldOut = noSizeRemaining !== null && noSizeRemaining < 1
+
     function handleAdd() {
       if (availableSizes && !selectedSize) {
         setSizeError(true)
@@ -376,8 +384,12 @@ function ProductCard({ p }) {
           )}
           <div className="featured__card-footer">
             <span className="featured__card-price">{p.price}</span>
-            <button className={`featured__card-btn${added ? ' featured__card-btn--added' : ''}`} onClick={handleAdd}>
-              {added ? '✓ Bætt við' : 'Bæta í körfu'}
+            <button
+              className={`featured__card-btn${added ? ' featured__card-btn--added' : ''}${isSoldOut ? ' featured__card-btn--soldout' : ''}`}
+              onClick={handleAdd}
+              disabled={isSoldOut}
+            >
+              {isSoldOut ? 'Uppselt' : added ? '✓ Bætt við' : 'Bæta í körfu'}
             </button>
           </div>
         </div>

@@ -253,6 +253,13 @@
   color: #fff !important;
 }
 
+.featured__card-btn--soldout {
+  background: #444 !important;
+  border-color: #444 !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+}
+
 .featured__card-select {
   width: 100%;
   background: #1a1a1a;
