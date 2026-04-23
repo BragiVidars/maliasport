@@ -13,7 +13,10 @@ const { defineSecret } = require("firebase-functions/params");
 const fetch = require("node-fetch");
 const admin = require("firebase-admin");
 
-admin.initializeApp();
+function getAdmin() {
+  if (!admin.apps.length) admin.initializeApp()
+  return admin
+}
 
 setGlobalOptions({ maxInstances: 10, region: "europe-west1" });
 
@@ -82,11 +85,12 @@ exports.createCheckout = onRequest(
 
       // Vista pöntun í Firestore
       try {
-        const db = admin.firestore();
+        const a = getAdmin()
+        const db = a.firestore();
         await db.collection('orders').doc(orderId).set({
           items: req.body.cartItems || [],
           status: 'pending',
-          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          createdAt: a.firestore.FieldValue.serverTimestamp(),
         });
       } catch (e) {
         console.warn('Gat ekki vistað pöntun í Firestore:', e.message);
@@ -128,7 +132,7 @@ exports.validateCode = onRequest(
 
     // Gjafabréf í Firestore
     if (codeType === 'giftcard' || !codeType) {
-      const db = admin.firestore()
+      const db = getAdmin().firestore()
       const snap = await db.collection('giftCards').doc(upperCode).get()
       if (snap.exists) {
         const card = snap.data()
@@ -151,7 +155,8 @@ exports.confirmOrder = onRequest(
     const { orderId } = req.body
     if (!orderId) return res.status(400).json({ error: 'orderId vantar' })
 
-    const db = admin.firestore()
+    const a = getAdmin()
+    const db = a.firestore()
     const orderRef = db.collection('orders').doc(orderId)
 
     try {
@@ -176,7 +181,7 @@ exports.confirmOrder = onRequest(
 
         t.update(orderRef, {
           status: 'confirmed',
-          confirmedAt: admin.firestore.FieldValue.serverTimestamp(),
+          confirmedAt: a.firestore.FieldValue.serverTimestamp(),
         })
       })
 
