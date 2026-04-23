@@ -1,11 +1,24 @@
 
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
+import { db } from '../lib/firebase'
+import { collection, getDocs } from 'firebase/firestore'
+
 const CartContext = createContext(null)
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [stockState, setStockState] = useState({})
+
+  // Sækja birgðir úr Firestore við hlöðun
+  useEffect(() => {
+    if (!db) return
+    getDocs(collection(db, 'stock')).then(snap => {
+      const firestoreStock = {}
+      snap.forEach(doc => { firestoreStock[doc.id] = doc.data().qty })
+      setStockState(prev => ({ ...prev, ...firestoreStock }))
+    }).catch(console.error)
+  }, [])
 
   // Initialize stockState from PRODUCTS on first render
   // (PRODUCTS must be imported here if needed, or passed as prop/context)

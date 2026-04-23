@@ -107,6 +107,18 @@ export default function Cart() {
     try {
       const orderId = `MS-${Date.now()}`
       const itemsSummary = items.map(i => `${i.product.name}${i.size ? ` (${i.size})` : ''} x${i.qty}`).join(' | ')
+      const cartItems = items.map(i => {
+        let stockKey = null, initialStock = null
+        if (i.product.noSizeStock !== undefined && !i.size) {
+          stockKey = `${i.product.id}-nosize`
+          initialStock = i.product.noSizeStock
+        } else if (i.size) {
+          const sizeForKey = i.size.includes(' \u2014 ') ? i.size.split(' \u2014 ')[0] : i.size
+          stockKey = `${i.product.id}-${sizeForKey}`
+          initialStock = i.product.stock?.[sizeForKey] ?? 1
+        }
+        return { productId: i.product.id, name: i.product.name, size: i.size, qty: i.qty, stockKey, initialStock }
+      })
       const res = await fetch(FUNCTION_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -114,6 +126,7 @@ export default function Cart() {
           amount: finalTotal,
           currency: 'ISK',
           orderId,
+          cartItems,
           successUrl: `${window.location.origin}?payment=success&order=${orderId}`,
           cancelUrl: window.location.origin,
           metadata: {

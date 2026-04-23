@@ -11,6 +11,9 @@ const { setGlobalOptions } = require("firebase-functions");
 const { onRequest } = require("firebase-functions/v2/https");
 const { defineSecret } = require("firebase-functions/params");
 const fetch = require("node-fetch");
+const admin = require("firebase-admin");
+
+admin.initializeApp();
 
 setGlobalOptions({ maxInstances: 10, region: "europe-west1" });
 
@@ -77,6 +80,18 @@ exports.createCheckout = onRequest(
         return res.status(response.status).json({ error: data });
       }
 
+      // Vista pöntun í Firestore
+      try {
+        const db = admin.firestore();
+        await db.collection('orders').doc(orderId).set({
+          items: req.body.cartItems || [],
+          status: 'pending',
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+      } catch (e) {
+        console.warn('Gat ekki vistað pöntun í Firestore:', e.message);
+      }
+
       return res.json({ checkout_url: data.session_url, session_id: data.session_id });
     } catch (err) {
       console.error("Teya villa:", err);
@@ -113,8 +128,6 @@ exports.validateCode = onRequest(
 
     // Gjafabréf í Firestore
     if (codeType === 'giftcard' || !codeType) {
-      const admin = require('firebase-admin')
-      if (!admin.apps.length) admin.initializeApp()
       const db = admin.firestore()
       const snap = await db.collection('giftCards').doc(upperCode).get()
       if (snap.exists) {
@@ -131,8 +144,51 @@ exports.validateCode = onRequest(
   }
 )
 
-exports.sendContactEmail = onRequest(
+exports.confirmOrder = onRequest(
   { cors: true },
+  async (req, res) => {
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Aðeins POST' })
+    const { orderId } = req.body
+    if (!orderId) return res.status(400).json({ error: 'orderId vantar' })
+
+    const db = admin.firestore()
+    const orderRef = db.collection('orders').doc(orderId)
+
+    try {
+      await db.runTransaction(async t => {
+        const orderSnap = await t.get(orderRef)
+        if (!orderSnap.exists) throw new Error('Pöntun fannst ekki')
+        if (orderSnap.data().status === 'confirmed') return // þegar staðfest
+
+        const items = orderSnap.data().items || []
+        const stockRefs = items
+          .filter(i => i.stockKey)
+          .map(i => ({ item: i, ref: db.collection('stock').doc(i.stockKey) }))
+
+        const stockSnaps = await Promise.all(stockRefs.map(s => t.get(s.ref)))
+
+        stockSnaps.forEach((snap, idx) => {
+          const { item, ref } = stockRefs[idx]
+          const currentQty = snap.exists ? snap.data().qty : (item.initialStock ?? 1)
+          const newQty = Math.max(0, currentQty - (item.qty || 1))
+          t.set(ref, { qty: newQty })
+        })
+
+        t.update(orderRef, {
+          status: 'confirmed',
+          confirmedAt: admin.firestore.FieldValue.serverTimestamp(),
+        })
+      })
+
+      return res.json({ success: true })
+    } catch (err) {
+      console.error('confirmOrder villa:', err)
+      return res.status(500).json({ error: err.message })
+    }
+  }
+)
+
+exports.sendContactEmail = onRequest(  { cors: true },
   async (req, res) => {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Aðeins POST" });

@@ -157,7 +157,7 @@ const PRODUCTS = [
     images: ['/p4-v2.jpg'],
     tag: null,
     sizes: ['4', '6'],
-    stock: { '4': 2, '6': 2 },
+    stock: { '4': 1, '6': 2 },
     description: 'Stærðir fyrir börn. Svartir og hvítir.',
   },
   // — Sokkar —
@@ -170,6 +170,7 @@ const PRODUCTS = [
     images: ['/sokkar-hvitir-v2.jpg'],
     tag: 'Nýtt',
     sizes: null,
+    noSizeStock: 15,
     description: 'Hvítir Nike sokkar. 3 pör í pakka.',
   },
   // — Legghlífar —
@@ -182,6 +183,7 @@ const PRODUCTS = [
     img: '/p1.jpg',
     tag: null,
     sizes: null,
+    noSizeStock: 50,
   },
   // — Mörk —
   {
@@ -193,6 +195,7 @@ const PRODUCTS = [
     images: ['/litilmork-1.avif', '/litilmork-2.jpeg'],
     tag: null,
     sizes: null,
+    noSizeStock: 2,
   },
   {
     id: 17,
@@ -203,6 +206,7 @@ const PRODUCTS = [
     images: ['/fotboltamark-2.avif', '/fotboltamark-1.jpeg'],
     tag: null,
     sizes: null,
+    noSizeStock: 2,
   },
   // — Annað —
   {

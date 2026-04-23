@@ -13,7 +13,9 @@ import Footer from './components/Footer'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+const CONFIRM_URL = 'https://europe-west1-maliasport.cloudfunctions.net/confirmOrder'
 
 function ErrorBoundary({ children }) {
   const [error, setError] = useState(null)
@@ -46,6 +48,21 @@ class ErrorCatcher extends React.Component {
 const isClosed = false
 
 export default function App() {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('payment') === 'success') {
+      const orderId = params.get('order')
+      if (orderId) {
+        fetch(CONFIRM_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId }),
+        }).catch(console.error)
+      }
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
+
   return (
     <AuthProvider>
       <CartProvider>

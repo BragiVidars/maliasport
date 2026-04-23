@@ -1,5 +1,6 @@
 import { getApp, getApps, initializeApp } from 'firebase/app'
 import { browserLocalPersistence, getAuth, setPersistence } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,6 +16,7 @@ const app = hasFirebaseConfig
   : null
 
 const auth = app ? getAuth(app) : null
+const db = app ? getFirestore(app) : null
 
 if (auth) {
   setPersistence(auth, browserLocalPersistence).catch(error => {
@@ -22,4 +24,4 @@ if (auth) {
   })
 }
 
-export { auth, hasFirebaseConfig }
+export { auth, db, hasFirebaseConfig }
