@@ -109,6 +109,19 @@ const PRODUCTS = [
     ],
     stock: { '28½': 1, '30': 3, '31½': 2 },
   },
+  // — Academy —
+  {
+    id: 19,
+    name: 'Nike Phantom 6 High Academy FG/MG',
+    category: 'Takkaskór',
+    series: 'Academy',
+    price: '17.990 kr',
+    images: ['/phantom6-high-academy-1.jpeg', '/phantom6-high-academy-2.jpeg'],
+    tag: 'Nýtt',
+    sizes: ['42½', '44'],
+    stock: { '42½': 1, '44': 1 },
+    description: 'FG/MG – Gras/Gervigras',
+  },
   // — Pro —
   {
     id: 13,
@@ -173,17 +186,93 @@ const PRODUCTS = [
     noSizeStock: 15,
     description: 'Hvítir Nike sokkar. 3 pör í pakka.',
   },
+  {
+    id: 105,
+    name: 'Malía Sport Gripsokkar ⚽🔥',
+    category: 'Sokkar',
+    series: null,
+    price: '2.990 kr',
+    images: ['/malía sokkar.jpeg', '/malía sokkar1.jpeg', '/aftan á malía sokkar.jpeg'],
+    tag: 'Nýtt',
+    sizes: ['M (36–39)', 'L (40–43)'],
+    stock: { 'M (36–39)': 45, 'L (40–43)': 45 },
+    description: `Malía Sport – Pro Grip sokkar ⚽️🔥
+Grip sem heldur þér stöðugum í hverri hreyfingu.
+Hannaðir fyrir leik, æfingar og gym.
+✔️ Anti-slip grip
+✔️ Þægilegir og sitja vel á fæti
+✔️ Minna rennsli í skónum
+✔️ Framleitt úr OEKO-TEX® Standard 100 vottuðum efnum
+👉 Fullkomnir fyrir fótbolta, körfu og æfingar`,
+    quantityOptions: [
+      { label: '1 par', price: '2.990 kr', savings: null },
+      { label: '2 pör – sparar 980 kr', price: '5.000 kr', savings: '980 kr' },
+    ],
+  },
   // — Legghlífar —
   {
     id: 1,
-    name: 'Malía sport mini legghlífar',
+    name: 'Malía Sport Mini Legghlífar ⚽🔥',
     category: 'Legghlífar',
     series: null,
     price: '3.290 kr',
-    img: '/p1.jpg',
+    img: '/legghlífar ný mynd.jpeg',
     tag: null,
     sizes: null,
     noSizeStock: 50,
+    description: `Léttar & þægilegar.
+✔️ Léttar og þægilegar
+✔️ Sterk vörn gegn höggi
+✔️ Sléttar og lítið útlit – sjást lítið í sokkum
+✔️ Sitja vel á leggnum & hreyfast ekkert
+✔️ Henta fyrir æfingar og keppni
+✔️ Henta börnum, unglingum og fullorðnum
+💡 Fullkomið með Malía Pro Grip Straps`,
+    quantityOptions: [
+      { label: '2 stk (1 par)', price: '3.290 kr', savings: null },
+      { label: '4 stk (2 pör) – sparar 1.090 kr', price: '5.490 kr', savings: '1.090 kr' },
+    ],
+  },
+  {
+    id: 103,
+    name: 'Malía Pro Grip Straps ⚽🔥',
+    category: 'Legghlífar',
+    series: null,
+    price: '2.590 kr',
+    images: ['/Gúmmí.jpeg'],
+    tag: 'Nýtt',
+    sizes: null,
+    noSizeStock: 45,
+    description: `Halda legghlífunum á sínum stað allan leikinn – engin þörf á límbandi.
+✔️ Sterkt grip – rennur ekki niður
+✔️ 2 stk í pakka (fyrir báða fætur)
+✔️ Þægilegt og teygjanlegt efni
+✔️ Endurnýtanlegt – sparar tape
+✔️ Hentar öllum fótbolta iðkenndum
+✔️ Clean og pro útlit`,
+    quantityOptions: [
+      { label: '2 stk (1 par)', price: '2.590 kr', savings: null },
+      { label: '4 stk (2 pör) – sparar 1.190 kr', price: '3.990 kr', savings: '1.190 kr' },
+    ],
+  },
+  {
+    id: 104,
+    name: '⚽ Match Pack',
+    category: 'Legghlífar',
+    series: null,
+    price: '4.990 kr',
+    images: ['/pakki.jpeg'],
+    tag: 'Nýtt',
+    sizes: null,
+    noSizeStock: 45,
+    description: `Fáðu bæði Malía Sport Mini Legghlífar og Malía Pro Grip Straps í einum pakka. ⚽
+👉 Létt, þægilegt og situr fullkomlega á fótunum.
+👉 Engin þörf á límbandi
+👉 straps halda öllu á sínum stað og legghlífarnar hreyfast ekkert.
+💰 Sparar 890 kr`,
+    quantityOptions: [
+      { label: '1 pakki (legghlífar + straps)', price: '4.990 kr', savings: null },
+    ],
   },
   // — Mörk —
   {
@@ -192,7 +281,7 @@ const PRODUCTS = [
     category: 'Mörk',
     series: null,
     price: '9.990 kr',
-    images: ['/litilmork-1.avif', '/litilmork-2.jpeg'],
+    images: ['/tvö mörk.jpeg'],
     tag: null,
     sizes: null,
     noSizeStock: 2,
@@ -203,7 +292,7 @@ const PRODUCTS = [
     category: 'Mörk',
     series: null,
     price: '18.990 kr',
-    images: ['/fotboltamark-2.avif', '/fotboltamark-1.jpeg'],
+    images: ['/eiit mark.jpeg'],
     tag: null,
     sizes: null,
     noSizeStock: 2,
@@ -253,13 +342,12 @@ const PRODUCTS = [
     name: 'Nike Phantom 6 Low Club FG/MG',
     category: 'Takkaskór',
     series: 'Club',
-    price: '',
+    price: '9.990 kr',
     images: ['/phantom6-low-club-1.jpeg', '/phantom6-low-club-2.jpeg'],
     tag: 'Nýtt',
     sizes: ['42½', '43', '44'],
     stock: { '42½': 1, '43': 1, '44': 1 },
     description: 'FG/MG – Gras/Gervigras | Rauðir og bláir',
-    hidden: true,
   },
   {
     id: 26,
@@ -286,6 +374,7 @@ function ProductCard({ p }) {
   const [added, setAdded] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [error, setError] = useState(null)
+  const [selectedQtyOption, setSelectedQtyOption] = useState(0)
 
   try {
     // ...engin sérstök meðhöndlun fyrir markmannshanska...
@@ -325,7 +414,10 @@ function ProductCard({ p }) {
       }
       setSizeError(false)
       const sizeLabel = p.variants ? `${selectedSize} — ${selectedColor}` : selectedSize || null
-      addItem(p, sizeLabel)
+      const productToAdd = p.quantityOptions
+        ? { ...p, price: p.quantityOptions[selectedQtyOption].price, name: `${p.name} (${p.quantityOptions[selectedQtyOption].label.split(' –')[0]})` }
+        : p
+      addItem(productToAdd, sizeLabel)
       setAdded(true)
       setTimeout(() => setAdded(false), 1500)
     }
@@ -386,8 +478,21 @@ function ProductCard({ p }) {
               </select>
             </>
           )}
+          {p.quantityOptions && (
+            <select
+              className="featured__card-select"
+              value={selectedQtyOption}
+              onChange={e => setSelectedQtyOption(Number(e.target.value))}
+            >
+              {p.quantityOptions.map((opt, i) => (
+                <option key={i} value={i}>{opt.label} – {opt.price}</option>
+              ))}
+            </select>
+          )}
           <div className="featured__card-footer">
-            <span className="featured__card-price">{p.price}</span>
+            <span className="featured__card-price">
+              {p.quantityOptions ? p.quantityOptions[selectedQtyOption].price : p.price}
+            </span>
             <button
               className={`featured__card-btn${added ? ' featured__card-btn--added' : ''}${isSoldOut ? ' featured__card-btn--soldout' : ''}`}
               onClick={handleAdd}
@@ -458,8 +563,21 @@ function ProductCard({ p }) {
             </select>
           </>
         )}
+        {p.quantityOptions && (
+          <select
+            className="featured__card-select"
+            value={selectedQtyOption}
+            onChange={e => setSelectedQtyOption(Number(e.target.value))}
+          >
+            {p.quantityOptions.map((opt, i) => (
+              <option key={i} value={i}>{opt.label} – {opt.price}</option>
+            ))}
+          </select>
+        )}
         <div className="featured__card-footer">
-          <span className="featured__card-price">{p.price}</span>
+          <span className="featured__card-price">
+            {p.quantityOptions ? p.quantityOptions[selectedQtyOption].price : p.price}
+          </span>
           <button className={`featured__card-btn${added ? ' featured__card-btn--added' : ''}`} onClick={handleAdd}>
             {added ? '✓ Bætt við' : 'Bæta í körfu'}
           </button>
@@ -472,7 +590,7 @@ function ProductCard({ p }) {
 export default function FeaturedProducts() {
   const [activeFilter, setActiveFilter] = useState('Allt')
 
-  const filters = ['Allt', 'Junior', 'Academy', 'Pro', 'Elite', 'Legghlífar', 'Sokkar', 'Markmannshanskar', 'Mörk']
+  const filters = ['Allt', 'Club', 'Junior', 'Academy', 'Pro', 'Elite', 'Legghlífar', 'Sokkar', 'Markmannshanskar', 'Mörk']
   const visible = (activeFilter === 'Allt'
     ? PRODUCTS
     : PRODUCTS.filter(p => p.series === activeFilter || p.category === activeFilter)
