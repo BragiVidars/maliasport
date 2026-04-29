@@ -180,7 +180,7 @@ const PRODUCTS = [
     category: 'Sokkar',
     series: null,
     price: '3.490 kr',
-    images: ['/sokkar-hvitir-v2.jpg'],
+    images: ['/Nike sokkar1.jpeg'],
     tag: 'Nýtt',
     sizes: null,
     noSizeStock: 15,
